@@ -129,9 +129,9 @@ button {
 </style>
 
 <div class="center" id="main">
-    <h1>💖 Kehkasha 💖</h1>
+    <h1>💖💖💖💖💖 Kehkasha 💖💖💖💖💖</h1>
     <div class="question">
-        Will you be my lifetime Valentine? ❤️
+      ❤️❤️❤️❤️❤️ Will you be my forever Valentine? ❤️❤️❤️❤️❤️
     </div>
     <div>
         <button class="yes" onclick="yesClicked()">YES 💘</button>
