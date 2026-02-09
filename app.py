@@ -52,20 +52,27 @@ button {
     color: #ff1e56;
 }
 
-/* ❤️ HEARTS – VERY VISIBLE */
+/* ❤️ HEART ANIMATION */
 .heart {
     position: fixed;
-    font-size: 48px;
+    bottom: -50px;
+    font-size: 42px;
     color: red;
-    animation: float 6s linear infinite;
+    animation: floatUp 6s linear forwards;
     pointer-events: none;
     z-index: 1;
 }
 
-@keyframes float {
-    0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
-    30% { opacity: 1; }
-    100% { transform: translateY(-10vh) scale(1.6); opacity: 0; }
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+    }
+    20% { opacity: 1; }
+    100% {
+        transform: translateY(-120vh) scale(1.6);
+        opacity: 0;
+    }
 }
 
 /* 😍 Love eyes */
@@ -94,6 +101,7 @@ button {
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     animation: pop 0.4s ease;
     z-index: 3;
+    text-align: center;
 }
 
 @keyframes pop {
@@ -110,7 +118,6 @@ button {
     position: fixed;
     width: 10px;
     height: 10px;
-    background-color: red;
     animation: confetti-fall 4s linear forwards;
     z-index: 3;
 }
@@ -139,26 +146,31 @@ button {
 </div>
 
 <div id="popup" class="popup hidden">
-    Wrong answer 😏 <br>
-    You are already mine ❤️ <br>
-    Click YES only 💘
+    Nice try 😏 But you’re already mine ❤️ <br>
+    Now click YES like a good Valentine 💘
 </div>
 
 <script>
-const hearts = ["❤️","❤️","❤️","💖","💘"];
+const heartEmoji = "❤️";
 
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (4 + Math.random() * 3) + "s";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 7000);
+/* Create 10–12 hearts from bottom */
+function createHeartBatch() {
+    const count = 10 + Math.floor(Math.random() * 3); // 10–12 hearts
+    for (let i = 0; i < count; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = heartEmoji;
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+    }
 }
-setInterval(createHeart, 200);
 
-/* 🎉 CONFETTI + FIREWORK FEEL */
+/* Continuous hearts */
+setInterval(createHeartBatch, 3000);
+
+/* Confetti */
 function createConfetti() {
     const confetti = document.createElement("div");
     confetti.className = "confetti";
@@ -174,8 +186,8 @@ function yesClicked() {
     document.getElementById("yesScreen").classList.remove("hidden");
 
     for (let i = 0; i < 40; i++) {
-        setTimeout(createHeart, i * 80);
-        setTimeout(createConfetti, i * 80);
+        setTimeout(createHeartBatch, i * 150);
+        setTimeout(createConfetti, i * 100);
     }
 }
 
