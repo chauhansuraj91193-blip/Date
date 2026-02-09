@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="My Valentine 💖", layout="wide")
+st.set_page_config(page_title="Kehkasha 💖", layout="wide")
 
 html_code = """
 <style>
@@ -19,6 +19,8 @@ body {
     justify-content: center;
     color: white;
     text-align: center;
+    position: relative;
+    z-index: 2;
 }
 
 h1 {
@@ -41,30 +43,34 @@ button {
 }
 
 .yes {
-    background: #ff2d55;
+    background: #ff1e56;
     color: white;
 }
 
 .no {
     background: white;
-    color: #ff2d55;
+    color: #ff1e56;
 }
 
+/* ❤️ HEARTS – VERY VISIBLE */
 .heart {
     position: fixed;
-    font-size: 32px;
+    font-size: 48px;
+    color: red;
     animation: float 6s linear infinite;
     pointer-events: none;
+    z-index: 1;
 }
 
 @keyframes float {
-    0% { transform: translateY(100vh) scale(0.6); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: translateY(-10vh) scale(1.4); opacity: 0; }
+    0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.6); opacity: 0; }
 }
 
+/* 😍 Love eyes */
 .love-eyes {
-    font-size: 100px;
+    font-size: 110px;
     animation: shake 0.6s infinite;
 }
 
@@ -76,16 +82,18 @@ button {
     100% { transform: rotate(0deg); }
 }
 
+/* Popup */
 .popup {
     position: fixed;
     bottom: 15%;
     background: white;
-    color: #ff2d55;
+    color: #ff1e56;
     padding: 20px 30px;
     border-radius: 20px;
     font-size: 1.3em;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     animation: pop 0.4s ease;
+    z-index: 3;
 }
 
 @keyframes pop {
@@ -96,10 +104,25 @@ button {
 .hidden {
     display: none;
 }
+
+/* 🎉 Confetti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    animation: confetti-fall 4s linear forwards;
+    z-index: 3;
+}
+
+@keyframes confetti-fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
 </style>
 
 <div class="center" id="main">
-    <h1>💖 Hey My Love 💖</h1>
+    <h1>💖 Kehkasha 💖</h1>
     <div class="question">
         Will you be my lifetime Valentine? ❤️
     </div>
@@ -111,17 +134,18 @@ button {
 
 <div class="center hidden" id="yesScreen">
     <div class="love-eyes">😍</div>
-    <h1>I knew it!!! 💖</h1>
-    <h2>You are forever mine 💍</h2>
+    <h1>Yayyy Kehkasha!!! 🎉💖</h1>
+    <h2>Forever & Always 💍</h2>
 </div>
 
 <div id="popup" class="popup hidden">
-    Nice try 😏 But you’re already mine ❤️ <br>
-    Now click YES like a good Valentine 💘
+    Wrong answer 😏 <br>
+    You are already mine ❤️ <br>
+    Click YES only 💘
 </div>
 
 <script>
-const hearts = ["❤️","💖","💘","💕","💞","💓"];
+const hearts = ["❤️","❤️","❤️","💖","💘"];
 
 function createHeart() {
     const heart = document.createElement("div");
@@ -132,26 +156,35 @@ function createHeart() {
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 7000);
 }
-setInterval(createHeart, 250);
+setInterval(createHeart, 200);
+
+/* 🎉 CONFETTI + FIREWORK FEEL */
+function createConfetti() {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.backgroundColor =
+        ["#ff1e56","#ffd700","#00eaff","#ffffff"][Math.floor(Math.random()*4)];
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 4000);
+}
 
 function yesClicked() {
     document.getElementById("main").classList.add("hidden");
     document.getElementById("yesScreen").classList.remove("hidden");
 
-    for (let i = 0; i < 30; i++) {
-        setTimeout(createHeart, i * 100);
+    for (let i = 0; i < 40; i++) {
+        setTimeout(createHeart, i * 80);
+        setTimeout(createConfetti, i * 80);
     }
 }
 
 function noClicked() {
     const popup = document.getElementById("popup");
     popup.classList.remove("hidden");
-
-    setTimeout(() => {
-        popup.classList.add("hidden");
-    }, 2500);
+    setTimeout(() => popup.classList.add("hidden"), 2500);
 }
 </script>
 """
 
-st.components.v1.html(html_code, height=900)
+st.components.v1.html(html_code, height=950)
