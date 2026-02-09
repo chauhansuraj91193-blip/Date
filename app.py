@@ -5,105 +5,126 @@ st.set_page_config(page_title="My Valentine 💖", layout="wide")
 html_code = """
 <style>
 body {
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    margin: 0;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
     overflow: hidden;
-}
-
-.container {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
     font-family: 'Segoe UI', sans-serif;
 }
 
+.center {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
 h1 {
-    font-size: 3em;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    font-size: 3.2em;
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
 }
 
 .question {
     font-size: 2em;
-    font-weight: bold;
-    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+button {
+    padding: 15px 40px;
+    font-size: 1.2em;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.yes {
+    background: #ff2d55;
+    color: white;
+}
+
+.no {
+    background: white;
+    color: #ff2d55;
 }
 
 .heart {
     position: fixed;
-    font-size: 24px;
-    animation: floatUp 6s linear infinite;
+    font-size: 30px;
+    animation: float 6s linear infinite;
+    pointer-events: none;
 }
 
-@keyframes floatUp {
-    0% {
-        transform: translateY(100vh) scale(0.5);
-        opacity: 0;
-    }
+@keyframes float {
+    0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
     50% { opacity: 1; }
-    100% {
-        transform: translateY(-10vh) scale(1.2);
-        opacity: 0;
-    }
+    100% { transform: translateY(-10vh) scale(1.3); opacity: 0; }
 }
 
-.quote {
-    position: fixed;
-    bottom: 15%;
-    width: 100%;
-    text-align: center;
-    font-size: 1.5em;
-    animation: fadeQuote 6s infinite;
+.love-eyes {
+    font-size: 100px;
+    animation: shake 0.6s infinite;
 }
 
-@keyframes fadeQuote {
-    0% { opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(10deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.hidden {
+    display: none;
 }
 </style>
 
-<div class="container">
+<div class="center" id="main">
+    <h1>💖 Hey My Love 💖</h1>
+    <div class="question">
+        Will you be my lifetime Valentine? ❤️
+    </div>
     <div>
-        <h1>💘 My Love 💘</h1>
-        <div class="question">Will you be my Valentine for a lifetime? ❤️</div>
+        <button class="yes" onclick="yesClicked()">YES 💘</button>
+        <button class="no" onclick="noClicked()">NO 🙄</button>
     </div>
 </div>
 
-<div id="quote" class="quote"></div>
+<div class="center hidden" id="yesScreen">
+    <div class="love-eyes">😍</div>
+    <h1>I knew it!!! 💖💖💖</h1>
+    <h2>You are forever mine 💍</h2>
+</div>
 
 <script>
-const hearts = ["❤️","💖","💘","💕","💞","💓"];
-const quotes = [
-    "You are my today and all of my tomorrows 💕",
-    "Every love story is beautiful, but ours is my favorite 💖",
-    "I choose you. And I’ll choose you every single day ❤️",
-    "Forever is a long time, but I wouldn’t mind spending it with you 💘"
-];
+const hearts = ["❤️","💖","💘","💕","💞","💓","😍"];
 
 function createHeart() {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+    heart.style.animationDuration = (4 + Math.random() * 3) + "s";
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 8000);
+    setTimeout(() => heart.remove(), 7000);
+}
+setInterval(createHeart, 250);
+
+function yesClicked() {
+    document.getElementById("main").classList.add("hidden");
+    document.getElementById("yesScreen").classList.remove("hidden");
+
+    // heart explosion
+    for (let i = 0; i < 30; i++) {
+        setTimeout(createHeart, i * 100);
+    }
 }
 
-setInterval(createHeart, 300);
-
-let quoteIndex = 0;
-const quoteDiv = document.getElementById("quote");
-
-function showQuote() {
-    quoteDiv.innerText = quotes[quoteIndex];
-    quoteIndex = (quoteIndex + 1) % quotes.length;
+function noClicked() {
+    alert("Nice try 😏 But you are already mine ❤️\\nNow click YES like a good Valentine 💘");
 }
-setInterval(showQuote, 6000);
-showQuote();
 </script>
 """
 
